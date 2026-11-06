@@ -65,11 +65,11 @@ Staging kör i **Azure Container Apps** som en app med fyra containrar (`infra/a
 
 Staging: https://utpost-staging.ambitiousisland-8c1b9e79.swedencentral.azurecontainerapps.io
 
-`/api/health` i staging visar samma sha som senaste commit på `main` (`74b421add659855fd2b9ed48875168adb4b7ff5f`):
+`/api/health` i staging visar samma sha som senaste commit på `main` (`9d48a11bedce6468fb2fef8671c8de6e8cadf54a`):
 
 ```console
 $ curl -s https://utpost-staging.ambitiousisland-8c1b9e79.swedencentral.azurecontainerapps.io/api/health
-{"ok":true,"version":"1.4.2","sha":"74b421add659855fd2b9ed48875168adb4b7ff5f","postgres":"ok","mongodb":"ok"}
+{"ok":true,"version":"1.4.2","sha":"9d48a11bedce6468fb2fef8671c8de6e8cadf54a","postgres":"ok","mongodb":"ok"}
 ```
 
 ## Images
