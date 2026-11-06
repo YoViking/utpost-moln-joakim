@@ -33,7 +33,7 @@ flowchart LR
 | Typkontroll (M2, M5) | `npm run typecheck` (codegen + `vue-tsc` + `tsc`) | ett fält som tagits bort ur schemat men används i en vy – kedjan schema → fråga → vy | ~10 s |
 | Integration (M5) | `npm run test:api` mot Postgres och Mongo som *services* | resolvers som inte stämmer med databasen, N+1 som kommit tillbaka, mutationer utan inloggningskrav – det klientens mockade tester aldrig ser | ~40 s inkl. start av databaserna |
 | Image (M4) | `docker/build-push-action` på `api/Dockerfile` och `client/Dockerfile` | en Dockerfile som inte går att bygga; på `main` publiceras imagerna med `sha-`tagg | ~1,5 min |
-| Deploy (M6) | `azure/login` (OIDC) · `az containerapp update` × 2 · `curl /api/health` i loop · `curl /graphql` | att imagerna startar i molnet med molnets konfiguration; verifierar sha i `/api/health` och att GraphQL svarar via nginx | ~1,5 min |
+| Deploy (M6) | `azure/login` (OIDC) · `az containerapp update` × 2 · `curl /api/health` i loop · `curl /graphql` | att imagerna startar i molnet med molnets konfiguration; verifierar sha i `/api/health` och att GraphQL svarar via nginx | 92 s |
 
 `npm ci` (~25 s) dominerar – den installerar alla tre workspaces inklusive React-klientens beroenden. När `web/` tas bort (M6) halveras tiden.
 
@@ -46,9 +46,9 @@ flowchart LR
 - Gör **inte** Deploy till required check: den körs aldrig på en PR (Deploy hoppas över på PR och körs bara vid merge/push till `main`).
 
 ### Revisionsnamn (rad 4)
-- **Deploy på main:** `utpost-staging--sha-<7>` (föregås av `utpost-staging--sha-<7>-api`)
-- **Rollback:** `utpost-staging--rollback-1` (steg 4)
-- **Framåt / tillbaka:** `utpost-staging--framat-1` (steg 4)
+- **Deploy på main:** `utpost-staging--sha-9d48a11` (föregås av mellanrevisionen `utpost-staging--sha-9d48a11-api`)
+- **Rollback:** `utpost-staging--rollback-1` (steg 4 – bytte sha till `74b421add659855fd2b9ed48875168adb4b7ff5f`)
+- **Framåt / tillbaka:** `utpost-staging--framat-1` (steg 4 – bytte tillbaka till `9d48a11bedce6468fb2fef8671c8de6e8cadf54a`)
 
 ## Vanliga fel vi sett
 
