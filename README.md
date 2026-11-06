@@ -63,6 +63,15 @@ Allt som skiljer en miljö från en annan kommer från miljövariabler – se `.
 
 Staging kör i **Azure Container Apps** som en app med fyra containrar (`infra/azure/staging.yaml`). Skapa den en gång med `infra/azure/skapa-staging.sh`; därefter deployar pipelinen vid varje merge till `main` (jobbet *Deploy → Azure staging*, se `docs/pipeline.md`). Appen skalar till noll mellan passen: första anropet väcker den (räkna med en minut), och databaserna seedas om vid varje kallstart (`SEED_ON_START=1`). Beslutet och alternativen står i `docs/decisions/hosting.md`.
 
+Staging: https://utpost-staging.ambitiousisland-8c1b9e79.swedencentral.azurecontainerapps.io
+
+`/api/health` i staging visar samma sha som senaste commit på `main` (`74b421add659855fd2b9ed48875168adb4b7ff5f`):
+
+```console
+$ curl -s https://utpost-staging.ambitiousisland-8c1b9e79.swedencentral.azurecontainerapps.io/api/health
+{"ok":true,"version":"1.4.2","sha":"74b421add659855fd2b9ed48875168adb4b7ff5f","postgres":"ok","mongodb":"ok"}
+```
+
 ## Images
 
 Pipelinen (jobbet *Image* i `.github/workflows/ci.yml`) bygger `api` och `client` på varje PR och publicerar dem i GHCR vid merge till `main`, taggade med commitens sha:
